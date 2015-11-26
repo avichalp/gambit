@@ -11,12 +11,15 @@ def gambit(es, *args, **kwargs):
 
     def f2(*args, **kwargs):
         for arg in args:
-            req_head = {'index_name': index_name, 'type': arg[0]}
+            req_head = {'index': index_name, 'type': arg[0]}
             requests.extend([req_head, arg[1]])
         return es.msearch(body=requests).get('responses')
 
-    def f3():
-        pass
+    def f3(*args, **kwargs):
+        for arg in args:
+            req_head = {'index': arg[0], 'type': arg[1]}
+            requests.extend([req_head, arg[2]])
+        return es.msearch(body=requests).get('responses')
 
     if index_name and doc_name:
         return f1
@@ -25,4 +28,4 @@ def gambit(es, *args, **kwargs):
         return f2
 
     else:
-        pass
+        return f3
