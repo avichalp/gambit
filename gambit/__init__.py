@@ -1,11 +1,13 @@
-def gambit(es, index_name=None, doc_name=None):
+def gambit(es, *args, **kwargs):
     requests = []
+    index_name = kwargs.get('index_name')
+    doc_name = kwargs.get('doc_name')
 
     def f1(*args, **kwargs):
         for arg in args:
             req_head = {'index': index_name, 'type': doc_name}
             requests.extend([req_head, arg])
-        return es.msearch(body=requests)
+        return es.msearch(body=requests).get('responses')
 
     def f2():
         pass
