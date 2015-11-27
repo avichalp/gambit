@@ -1,4 +1,4 @@
-def gambit(es, *args, **kwargs):
+def search(es, *args, **kwargs):
     requests = []
     index_name = kwargs.get('index')
     doc_name = kwargs.get('doc')

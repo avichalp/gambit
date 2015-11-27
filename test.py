@@ -1,5 +1,5 @@
 from elasticsearch import Elasticsearch
-from gambit import gambit
+from gambit import search
 from pprint import pprint
 
 es = Elasticsearch()
@@ -9,14 +9,14 @@ q3 =  {"from": 0, "size": 2 }
 
 def test_index_and_doc():
 
-    responses = gambit(es, index='grofers-index-v3', doc='merchant')(q1, q2, q3)
+    responses = search(es, index='grofers-index-v3', doc='merchant')(q1, q2, q3)
     results = [result for result in responses]
     pprint(results)
 
 
 def test_index():
 
-    qf = gambit(es, index='grofers-index-v3')
+    qf = search(es, index='grofers-index-v3')
     responses = qf(
         ('merchant', q1),
         ('merchant', q2),
@@ -28,7 +28,7 @@ def test_index():
 
 def test():
 
-    qf = gambit(es)
+    qf = search(es)
     responses = qf(
         ('grofers-index-v3', 'merchant', q1),
         ('grofers-index-v3', 'merchant', q2),
