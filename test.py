@@ -41,6 +41,38 @@ def test():
     pprint(results)
 
 
+def test_index_doc_get():
+
+    g = Gambit(es)
+    responses = g.get(index='grofers-index-v3', doc='merchant')(1,39,91,256,546)
+    results = [result for result in responses]
+    pprint(results)
+
+
+def test_doc_get():
+
+    g = Gambit(es)
+    responses = g.get(index='grofers-index-v3')(
+        ('merchant', 1),
+        ('merchant', 2)
+    )
+    results = [result for result in responses]
+    pprint(results)
+
+def test_get():
+
+    g = Gambit(es)
+    responses = g.get()(
+        ('grofers-index-v3', 'merchant', 1),
+        ('grofers-index-v3', 'merchant', 2)
+    )
+    results = [result for result in responses]
+    pprint(results)
+
+
 test_index_and_doc()
 test_index()
 test()
+test_get()
+test_doc_get()
+test_index_doc_get()
