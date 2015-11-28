@@ -7,48 +7,39 @@ class Gambit(object):
     def search(self, *args, **kwargs):
         index_name = kwargs.get('index')
         doc_name = kwargs.get('doc')
-
-        def f1(*args, **kwargs):
-            for arg in args:
-                req_head = {'index': index_name, 'type': doc_name}
-                self.requests.extend([req_head, arg])
-            return self.es.msearch(body=self.requests).get('responses')
-
-        def f2(*args, **kwargs):
-            for arg in args:
-                req_head = {'index': index_name, 'type': arg[0]}
-                self.requests.extend([req_head, arg[1]])
-            return self.es.msearch(body=self.requests).get('responses')
-
-        def f3(*args, **kwargs):
-            for arg in args:
-                req_head = {'index': arg[0], 'type': arg[1]}
-                self.requests.extend([req_head, arg[2]])
-            return self.es.msearch(body=self.requests).get('responses')
+        req_body = []
 
         if index_name and doc_name:
-            return f1
+            for arg in args:
+                req_head = {'index': index_name, 'type': doc_name}
+                req_body.extend([req_head, arg])
+            return self.es.msearch(body=req_body).get('responses')
 
         elif index_name:
-            return f2
+            for arg in args:
+                req_head = {'index': index_name, 'type': arg[0]}
+                req_body.extend([req_head, arg[1]])
+            return self.es.msearch(body=req_body).get('responses')
 
         else:
-            return f3
-
+            for arg in args:
+                req_head = {'index': arg[0], 'type': arg[1]}
+                req_body.extend([req_head, arg[2]])
+            return self.es.msearch(body=req_body).get('responses')
 
     def get(self, *args, **kwargs):
         index_name = kwargs.get('index')
         doc_name = kwargs.get('doc')
+        req_body = []
 
-        def f1(*args, **kwargs):
+        if index_name and doc_name:
             ids = []
             for arg in args:
                 ids.append(arg)
             self.requests  = {'ids': ids}
             return self.es.mget(index=index_name, doc_type=doc_name, body=self.requests).get('docs')
 
-        def f2(*args, **kwrgs):
-            req_body = []
+        elif index_name:
             for arg in args:
                 req_body.append({
                     '_type': arg[0],
@@ -57,8 +48,7 @@ class Gambit(object):
             self.requests = {'docs': req_body}
             return self.es.mget(index=index_name, body=self.requests).get('docs')
 
-        def f3(*args, **kwargs):
-            req_body = []
+        else:
             for arg in args:
                 req_body.append({
                     '_index': arg[0],
@@ -67,10 +57,3 @@ class Gambit(object):
                 })
             self.requests = {'docs': req_body}
             return self.es.mget(body=self.requests).get('docs')
-
-        if index_name and doc_name:
-            return f1
-        elif index_name:
-            return f2
-        else:
-            return f3
