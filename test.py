@@ -25,6 +25,7 @@ d2 = {
     }
 }
 
+
 def test_percolate_index_doc():
 
     g = Gambit(es)
@@ -57,7 +58,6 @@ def test_percolate():
 def test_index_and_doc():
 
     g = Gambit(es)
-    #responses = g.search(index='grofers-index-v3', doc='merchant')(q1, q2, q3)
     responses = g.search(q1, q2, q3, index='grofers-index-v3', doc='merchant')
     results = [result for result in responses]
     pprint(results)
@@ -128,3 +128,6 @@ test()
 test_get()
 test_doc_get()
 test_index_doc_get()
+test_percolate()
+test_percolate_index_doc()
+test_percolate_index()

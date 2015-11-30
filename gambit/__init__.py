@@ -71,13 +71,13 @@ class Gambit(object):
         elif index_name:
             req_body = []
             for arg in args:
-                req_head = {'index': index_name, 'type': arg[0]}
+                req_head = {'percolate' : {'index': index_name, 'type': arg[0]}}
                 req_body.extend([req_head, arg[1]])
             return self.es.mpercolate(body=req_body).get('responses')
 
         else:
             req_body = []
             for arg in args:
-                req_head = {'index': arg[0], 'type': arg[1]}
+                req_head = {'percolate' : {'index': arg[0], 'type': arg[1]}}
                 req_body.extend([req_head, arg[2]])
             return self.es.mpercolate(body=req_body).get('responses')
