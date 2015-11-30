@@ -2,6 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='gambit',
+    version="0.1.1",
     description='A micro library for performing multi queries in elasticsearch',
     keywords='elasticsearch elastic',
     author='Avichal Pandey',

@@ -2,10 +2,57 @@ from elasticsearch import Elasticsearch
 from gambit import Gambit
 from pprint import pprint
 
-es = Elasticsearch()
+es = Elasticsearch('54.254.200.31:9200')
 q1 =  {"from": 0, "size": 2 }
 q2 =  {"from": 0, "size": 2 }
 q3 =  {"from": 0, "size": 2 }
+
+d1 = {
+    'doc': {
+        'location': {
+            'lat': 28.411599,
+            'lon': 77.046451
+        }
+    }
+}
+
+d2 = {
+    'doc': {
+        'location': {
+            'lat': 28.411599,
+            'lon': 77.046451
+        }
+    }
+}
+
+def test_percolate_index_doc():
+
+    g = Gambit(es)
+    responses = g.percolate(d1, d2, index='grofers_throttle_index', doc='locality_throttle')
+    results = [result for result in responses]
+    pprint(results)
+
+def test_percolate_index():
+
+    g = Gambit(es)
+    responses = g.percolate(
+        ('locality_throttle', d1),
+        ('locality_throttle', d2),
+        index='grofers_throttle_index'
+    )
+    results = [result for result in responses]
+    pprint(results)
+
+
+def test_percolate():
+
+    g = Gambit(es)
+    responses = g.percolate(
+        ('grofers_throttle_index', 'locality_throttle', d1),
+        ('grofers_throttle_index', 'locality_throttle', d2)
+    )
+    results = [result for result in responses]
+    pprint(results)
 
 def test_index_and_doc():
 
