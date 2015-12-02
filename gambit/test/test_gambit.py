@@ -1,6 +1,10 @@
+import pytest
+import sys
+
+sys.path.append('/'.join(__file__.split('/')[0:-3]))
+
 from elasticsearch import Elasticsearch
 from gambit import  Msearch, Mpercolate, percolate_and_get
-from pprint import pprint
 
 es = Elasticsearch('localhost:9200')
 q1 =  {"from": 0, "size": 2 }
@@ -87,8 +91,13 @@ def search_test_env(f):
         es.indices.create(index='test-index')
         es.indices.put_mapping(index='test-index', doc_type='test-doc', body=dummy_mappings)
         es.index(index='test-index', doc_type='test-doc', body=test_doc1)
-        f()
-        es.indices.delete(index='test-index')
+        try:
+            f()
+        except:
+            es.indices.delete(index='test-index')
+            raise
+        else:
+            es.indices.delete(index='test-index')
     return wrap
 
 
@@ -101,8 +110,13 @@ def percolate_test_env(f):
             doc_type=".percolator",
             body=query
         )
-        f()
-        es.indices.delete(index='test-percolate-index')
+        try:
+            f()
+        except:
+            es.indices.delete(index='test-percolate-index')
+            raise
+        else:
+            es.indices.delete(index='test-percolate-index')
     return wrap
 
 
@@ -144,6 +158,7 @@ def test_mpercolate():
     for result in results:
         assert isinstance(result, dict) == True
 
+
 @percolate_test_env
 def test_mpercolate_index():
     s = Mpercolate(es, index='test-percolate-index')
@@ -155,8 +170,5 @@ def test_mpercolate_index():
         assert isinstance(result, dict) == True
 
 
-#test_msearch()
-#test_msearch_index()
-#test_percolate_and_get()
-#test_mpercolate()
-#test_mpercolate_index()
+if __name__ == '__main__':
+    pytest.main()
