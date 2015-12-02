@@ -26,6 +26,12 @@ d2 = {
 }
 
 
+def test_percolate_and_get():
+
+    g = Gambit(es)
+    results = g.percolate_and_get(d2, index='grofers_throttle_index', doc='locality_throttle')
+    pprint(results)
+
 def test_percolate_index_doc():
 
     g = Gambit(es)
@@ -131,3 +137,4 @@ test_index_doc_get()
 test_percolate()
 test_percolate_index_doc()
 test_percolate_index()
+test_percolate_and_get()

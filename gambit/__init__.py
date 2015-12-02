@@ -81,3 +81,28 @@ class Gambit(object):
                 req_head = {'percolate' : {'index': arg[0], 'type': arg[1]}}
                 req_body.extend([req_head, arg[2]])
             return self.es.mpercolate(body=req_body).get('responses')
+
+    def percolate_and_get(self, percolate_body, *arg, **kwargs):
+        index_name = kwargs.get('index')
+        doc_name = kwargs.get('doc')
+        result = []
+        if index_name and doc_name:
+            percolate_result = self.es.percolate(
+                index=index_name,
+                doc_type=doc_name,
+                body=percolate_body
+            )
+
+            if percolate_result and percolate_result['matches']:
+                for match in percolate_result['matches']:
+                    result.append(
+                        self.es.get_source(
+                            index=index_name,
+                            doc_type=doc_name,
+                            id=match['_id']
+                        )
+                    )
+                return result
+
+            else:
+                return []
