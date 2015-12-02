@@ -2,6 +2,11 @@
 __pycache__/
 *.py[cod]
 
+# sphinx build folder
+_build
+_static
+_templates
+
 # C extensions
 *.so
 
@@ -24,3 +29,5 @@ var/
 .installed.cfg
 *.egg
 
+.cache/
+.tox/
