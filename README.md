@@ -1,5 +1,7 @@
-# gambit
+# Gambit
 A micro library for performing multi-search/multi-percolate queries on Elasticsearch using elasticseach-py
+
+[![Build Status](https://travis-ci.org/avichalp/gambit.svg?branch=master)](https://travis-ci.org/avichalp/gambit)
 
 usage: `pip install gambit`
 
