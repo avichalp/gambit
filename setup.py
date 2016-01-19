@@ -16,7 +16,7 @@ class Tox(TestCommand):
 
 setup(
     name='gambit',
-    version="0.1.5",
+    version="0.1.6",
     description='A micro library for performing multi queries in elasticsearch',
     keywords='elasticsearch elastic',
     author='Avichal Pandey',

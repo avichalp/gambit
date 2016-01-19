@@ -5,7 +5,9 @@ class Base(object):
     """
     def __init__(self, es, *args, **kwargs):
         """
-        :arg es: object of class Elasticsearch from module elasticseach
+        :param es: object of class Elasticsearch from module elasticseach
+        :param str index: name of the index which is to be queried
+        :param str doc_type: name of the doc_type which is to be queried
         """
         self.index_name = kwargs.get('index')
         self.doc_type = kwargs.get('doc_type')
@@ -36,21 +38,21 @@ class Msearch(Base):
     Class to build and execute
     multi search queries
     """
-    request_body = []
 
     def __init__(self, es, *args, **kwargs):
         """
-        :arg es: object of class Elasticsearch from module elasticseach
-        :arg index: name of the index to be queried (optional)
-        :arg doc_type: name of documnet type to be queried (optional)
+        :param es: object of class Elasticsearch from module elasticseach
+        :param str index: name of the index which is to be queried
+        :param str doc_type: name of the doc_type which is to be queried
         """
+        self.request_body = []
         super(Msearch, self).__init__(es, *args, **kwargs)
 
     def add(self, q, *args, **kwargs):
         """
-        :arg q: query in form of a dictionary which is to be added to be executed in parallel
-        :arg index: name of the index to be queried
-        :arg doc_type: name of documnet type to be queried
+        :param dict q: query in form of a dictionary which is to be added to be executed in parallel
+        :param str index: name of the index which is to be queried
+        :param str doc_type: name of the doc_type which is to be queried
         """
         index_name, doc_type = self._query_builder(*args, **kwargs)
         req_head = {'index': index_name, 'type': doc_type}
@@ -72,17 +74,17 @@ class Mpercolate(Base):
 
     def __init__(self, es, *args, **kwargs):
         """
-        :arg es: object of class Elasticsearch from module elasticseach
-        :arg index: name of the index to be queried (optional)
-        :arg doc_type: name of documnet type to be queried (optional)
+        :param es: object of class Elasticsearch from module elasticseach
+        :param str index: name of the index which is to be queried
+        :param str doc_type: name of the doc_type which is to be queried
         """
         super(Mpercolate, self).__init__(es, *args, **kwargs)
 
     def add(self, d, *args, **kwargs):
         """
-        :arg d: doc in form of a dictionary which is to be percolated.
-        :arg index: name of the index to be queried
-        :arg doc_type: name of documnet type to be queried
+        :param dict d: doc in form of a dictionary which is to be percolated.
+        :param str index: name of the index which is to be queried.
+        :param str doc_type: name of the doc_type which is to be queried
         """
         index_name, doc_type = self._query_builder(*args, **kwargs)
         req_head = {'percolate' : {'index': index_name, 'type': doc_type}}
@@ -97,10 +99,10 @@ class Mpercolate(Base):
 
 def percolate_and_get(es, percolate_body, *arg, **kwargs):
     """
-    :arg es: object of class Elasticsearch from module elasticseach
-    :arg percolate_body: doc which is to be percolated in the form a dictionary
-    :arg index: name of the index to be queried
-    :arg doc_type: name of documnet type to be queried
+    :param es: object of class Elasticsearch from module elasticseach.
+    :param dict d: doc in form of a dictionary which is to be percolated.
+    :param str index: name of the index which is to be queried.
+    :param str doc_type: name of the doc_type which is to be queried.
     """
     index_name = kwargs.get('index')
     doc_name = kwargs.get('doc')
