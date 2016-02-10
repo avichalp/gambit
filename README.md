@@ -3,23 +3,37 @@ A micro library for performing multi-search/multi-percolate queries on Elasticse
 
 [![Build Status](https://travis-ci.org/avichalp/gambit.svg?branch=master)](https://travis-ci.org/avichalp/gambit)
 
-usage: `pip install gambit`
+#### Installation
+`pip install gambit`
 
-Example:
+#### API
 
-using with Elasticsearch-py (https://github.com/elastic/elasticsearch-py)
+To perform a multisearch use `Msearch`<br>
 ```
 from elasticsearch import Elasticsearch
 from gambit import Msearch
+search = Msearch(Elasticsearch(), index='some-index', doc-type='some-doc-type')
+```
 
-es = Elasticsearch()
-q1 = {...}
-q2 = {...}
+Let your queries be expressed in the form of python dictionaries.
+```
+query1 = {...}
+query2 = {...}
+query3 = {...}
+```
 
-search = Msearch(es)
-search.add(q1, index='some-index-name', doc_type='some-doc-type')
-search.add(q2, index='some-other-index', doc_type='some-other-doc-type')
-results = search.execute()
-```  
-Full documentation at http://gambit.readthedocs.org/en/latest/
+Use `add` method of `Msearch` to make your final query.
+```
+search.add(query1)
+search.add(query2)
+search.add(query3)
+```
+
+Use 'execute' method of `Msearch` class to fire the aggregated query.
+``` 
+list_of_results = search.execute()
+```
+
+### Docs
+Look at full documentation [here](http://gambit.readthedocs.org/en/latest/)
 
