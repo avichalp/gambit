@@ -20,6 +20,8 @@ Let your queries be expressed in the form of python dictionaries.
 query1 = {...}
 query2 = {...}
 query3 = {...}
+
+document1 = {...}
 ```
 
 Use `add` method of `Msearch` to make your final query.
@@ -32,6 +34,12 @@ search.add(query3)
 Use 'execute' method of `Msearch` class to fire the aggregated query.
 ``` 
 list_of_results = search.execute()
+```
+
+Use `percolate_and_get` function to percolate and immediately fetch all matching documents.
+```
+matching_docs = precolate_and_get(Elasticsearch(), document1,
+                                    index='some-index', doc-type='some-doc-typr')
 ```
 
 ### Docs
