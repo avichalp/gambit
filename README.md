@@ -16,8 +16,8 @@ query3 = {...}
 
 document1 = {...}
 ```
-<br>
-###### Msearch
+
+##### Msearch
 To perform a multisearch use `Msearch` class<br>
 ```
 from elasticsearch import Elasticsearch
@@ -34,8 +34,8 @@ Use `execute` method of `Msearch` class to fire the aggregated query.
 ``` 
 list_of_results = search.execute()
 ```
-<br>
-###### percolate_and_get
+
+##### percolate_and_get
 
 Use `percolate_and_get` function to percolate and fetch all matching documents.
 ```
