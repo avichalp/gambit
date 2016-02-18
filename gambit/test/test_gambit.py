@@ -89,7 +89,9 @@ query = {
 def search_test_env(f):
     def wrap():
         es.indices.create(index='test-index')
-        es.indices.put_mapping(index='test-index', doc_type='test-doc', body=dummy_mappings)
+        es.indices.put_mapping(
+            index='test-index', doc_type='test-doc', body=dummy_mappings
+        )
         es.index(index='test-index', doc_type='test-doc', body=test_doc1)
         try:
             f()
@@ -104,7 +106,10 @@ def search_test_env(f):
 def percolate_test_env(f):
     def wrap():
         es.indices.create(index='test-percolate-index')
-        es.indices.put_mapping(index='test-percolate-index', doc_type='test-percolate-doc', body=dummy_percolate_mappings)
+        es.indices.put_mapping(
+            index='test-percolate-index', doc_type='test-percolate-doc',
+            body=dummy_percolate_mappings
+        )
         es.create(
             index='test-percolate-index',
             doc_type=".percolator",
@@ -122,7 +127,9 @@ def percolate_test_env(f):
 
 @percolate_test_env
 def test_percolate_and_get():
-    results = percolate_and_get(es, d2, index='test-percolate-index', doc='test-percolate-doc')
+    results = percolate_and_get(
+        es, d2, index='test-percolate-index', doc='test-percolate-doc'
+    )
     assert isinstance(results, list) == True
 
 
